@@ -65,3 +65,16 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
   group = g_fold,
   desc = "Restore folds on buffer loads",
 })
+
+local g_not_continue = vim.api.nvim_create_augroup("p_not_continue", { clear = true })
+vim.api.nvim_create_autocmd("Filetype", {
+  pattern = { "*" },
+  callback = function()
+    -- vim.opt.formatoptions = vim.opt.formatoptions - "o"
+    vim.opt.formatoptions = vim.opt.formatoptions + {
+      o = false, -- Don't continue comments with o and O
+    }
+  end,
+  group = g_not_continue,
+  desc = "Don't continue comments with o and O",
+})
