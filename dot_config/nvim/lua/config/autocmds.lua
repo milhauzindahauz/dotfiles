@@ -2,10 +2,7 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 
-local util = require("lazyvim.util")
-local group_name = "p_group_lazyvim"
-
-local cmd_group = vim.api.nvim_create_augroup(group_name, { clear = true })
+local g_chezmoi = vim.api.nvim_create_augroup("p_chezmoi", { clear = true })
 
 local chezmoi_source = "~/.local/share/chezmoi"
 
@@ -25,7 +22,7 @@ local is_tracked_by_chezmoi = function(buff_path)
 end
 
 vim.api.nvim_create_autocmd({ "BufReadPost", "VimEnter" }, {
-  group = cmd_group,
+  group = g_chezmoi,
   callback = function(event)
     local is_tracked, filepath = is_tracked_by_chezmoi("%")
     if is_tracked and filepath ~= nil then
@@ -48,3 +45,23 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "VimEnter" }, {
 ---     end
 ---   end,
 --- })
+
+local g_fold = vim.api.nvim_create_augroup("p_fold", { clear = true })
+
+vim.api.nvim_create_autocmd({ "BufLeave", "BufWinLeave" }, {
+  pattern = "*",
+  callback = function()
+    vim.cmd("silent! mkview")
+  end,
+  group = g_fold,
+  desc = "Remember folds on buffer exit.",
+})
+
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+  pattern = "*",
+  callback = function()
+    vim.cmd("silent! loadview")
+  end,
+  group = g_fold,
+  desc = "Restore folds on buffer loads",
+})
