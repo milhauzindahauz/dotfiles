@@ -78,3 +78,17 @@ vim.api.nvim_create_autocmd("Filetype", {
   group = g_not_continue,
   desc = "Don't continue comments with o and O",
 })
+
+local g_reload = vim.api.nvim_create_augroup("p_reload_config", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePost", {
+  -- Match all `lua` files in `lua/config` except `lazy.lua` which is the
+  -- setup file for `lazy.nvim` and should only be reloaded when updated.
+  pattern = "**/lua/config/*[^lazy].lua",
+  callback = function()
+    local filepath = vim.fn.expand("%")
+    dofile(filepath)
+    vim.notify("Configuration reloaded \n" .. filepath, nil)
+  end,
+  group = g_reload,
+  desc = "Reload config on save",
+})
