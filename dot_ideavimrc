@@ -7,7 +7,8 @@ let mapleader = " "
 "" source plugins
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'easymotion/vim-easymotion'
+Plug 'machakann/vim-highlightedyank'
+Plug 'tpope/vim-commentary'
 
 "" vim surround enable
 set surround
@@ -15,8 +16,8 @@ set surround
 set multiple-cursors
 " https://plugins.jetbrains.com/plugin/15348-ideavim-sneak
 set sneak
-"" easymotion enable
-set easymotion
+"" enable highlightedyank
+set highlightedyank
 
 xnoremap p "_dP
 
