@@ -1,10 +1,8 @@
 -- DO NOT TURN ON WITHOUT VSCODE
 if not vim.g.vscode then
-  print('NOT VSCODE RUNNING.')
   return {}
 end
 
-print('VSCODE RUNNING.')
 print(vim.g.vscode)
 local enabled = {
   "flit.nvim",
